@@ -29,3 +29,5 @@ air
 
 .env*
 !.env.example
+
+database.sqlite

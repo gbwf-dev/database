@@ -1,11 +1,16 @@
 package database
 
-import "gorm.io/gorm"
+import (
+	"gbfw/api/env"
+
+	"gorm.io/driver/sqlite"
+	"gorm.io/gorm"
+)
 
 var DB *gorm.DB
 
 func Open() (err error) {
-	DB, err = gorm.Open(noOpDialector{})
+	DB, err = gorm.Open(sqlite.Open(env.Getenv("DB_PATH", "database.sqlite")))
 	return
 }
 
