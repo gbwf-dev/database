@@ -4,6 +4,7 @@ import (
 	"context"
 	"gbfw/api/bootstrap"
 	"gbfw/api/controllers"
+	"gbfw/api/database"
 	"gbfw/api/env"
 	"gbfw/api/vite"
 	"io/fs"
@@ -19,6 +20,7 @@ import (
 func main() {
 	err := bootstrap.Run(
 		env.Load,
+		database.Open,
 	)
 
 	if err != nil {
@@ -55,6 +57,7 @@ func main() {
 	err = bootstrap.Run(
 		app.Shutdown,
 		func() (err error) { return app.ShutdownWithContext(ctx) },
+		database.Close,
 	)
 
 	if err != nil {
