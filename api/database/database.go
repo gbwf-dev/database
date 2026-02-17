@@ -1,11 +1,24 @@
 package database
 
-import "gorm.io/gorm"
+import (
+	"fmt"
+	"gbfw/api/env"
+
+	"gorm.io/driver/postgres"
+	"gorm.io/gorm"
+)
 
 var DB *gorm.DB
 
 func Open() (err error) {
-	DB, err = gorm.Open(noOpDialector{})
+	DB, err = gorm.Open(postgres.Open(fmt.Sprintf(
+		"postgresql://%s:%s@%s:%s/%s",
+		env.Getenv("DB_USER", "potgres"),
+		env.Getenv("DB_PASSWORD", ""),
+		env.Getenv("DB_HOST", "127.0.0.1"),
+		env.Getenv("DB_PORT", "5432"),
+		env.Getenv("DB_NAME", "gbwf"),
+	)))
 	return
 }
 
